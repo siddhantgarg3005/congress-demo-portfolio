@@ -4,7 +4,7 @@ import Type from "./Type";
 import Particle from "../Particle";
 import congressLogo from "../../Assets/congress-logo.png";
 import politicianImg from "../../Assets/politician.png";
-import JanAwaaz from "./JanAwaaz";
+import PromiseTracker from "./PromiseTracker";
 
 const S = `
   @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=Tiro+Devanagari+Hindi&display=swap');
@@ -409,7 +409,7 @@ function Home() {
         </div>
       </section>
 
-      <JanAwaaz />
+      <PromiseTracker />
     </>
   );
 }

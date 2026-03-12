@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-import JanAwaaz from "./JanAwaaz";
 
 const CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,800&family=Tiro+Devanagari+Hindi&display=swap');
@@ -339,7 +338,6 @@ function Home2() {
           </div>
         </div>
       </section>
-      <JanAwaaz />
     </>
   );
 }

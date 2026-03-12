@@ -1,3 +1,4 @@
+import rahulImg from "../../Assets/Rahul.png";
 import React, { useEffect, useRef, useState } from "react";
 
 const CSS = `
@@ -68,35 +69,116 @@ const CSS = `
     gap:24px; margin-bottom:32px;
   }
 
-  /* big featured award */
-  .ach-featured {
-    padding:32px; border-radius:22px;
-    background:linear-gradient(135deg, rgba(0,53,128,0.2) 0%, rgba(0,85,165,0.08) 100%);
+  /* ── PHOTO MOMENT CARD ── */
+  .ach-photo-card {
+    border-radius:22px; overflow:hidden;
     border:1px solid rgba(0,85,165,0.25);
+    position:relative;
+    transition:all 0.4s cubic-bezier(0.22,1,0.36,1);
+    background:#030916;
+    display:flex; flex-direction:column;
+  }
+  .ach-photo-card:hover {
+    border-color:rgba(0,85,165,0.5);
+    box-shadow:0 24px 60px rgba(0,85,165,0.2);
+    transform:translateY(-5px);
+  }
+
+  /* top image area */
+  .ach-photo-img-wrap {
     position:relative; overflow:hidden;
-    transition:all 0.35s ease;
+    height:240px; flex-shrink:0;
   }
-  .ach-featured::before {
-    content:'"'; position:absolute; right:20px; top:-10px;
-    font-size:8em; font-family:serif; font-weight:900;
-    color:rgba(0,85,165,0.06); line-height:1; pointer-events:none;
+  .ach-photo-img {
+    width:100%; height:100%; object-fit:cover; object-position:center top;
+    filter:brightness(0.82) saturate(1.05);
+    transition:all 0.5s ease;
   }
-  .ach-featured:hover {
-    border-color:rgba(0,85,165,0.45);
-    box-shadow:0 20px 50px rgba(0,85,165,0.15);
-    transform:translateY(-4px);
+  .ach-photo-card:hover .ach-photo-img { filter:brightness(0.95) saturate(1.15); transform:scale(1.04); }
+
+  /* gradient overlay on image */
+  .ach-photo-overlay {
+    position:absolute; inset:0;
+    background:linear-gradient(180deg,
+      transparent 0%,
+      rgba(3,9,22,0.1) 50%,
+      rgba(3,9,22,0.85) 100%
+    );
+    pointer-events:none;
   }
-  .ach-feat-badge {
+
+  /* tricolor accent bar on top of image */
+  .ach-photo-tricolor {
+    position:absolute; top:0; left:0; right:0; height:3px;
+    background:linear-gradient(90deg, #FF9933 33.3%, #fff 33.3% 66.6%, #138808 66.6%);
+    opacity:0.7;
+  }
+
+  /* "with" tag on image */
+  .ach-photo-with {
+    position:absolute; bottom:14px; left:14px;
     display:inline-flex; align-items:center; gap:8px;
-    padding:5px 14px; border-radius:20px;
-    background:rgba(255,153,51,0.1); border:1px solid rgba(255,153,51,0.25);
-    font-family:'Outfit',sans-serif; font-size:0.7em; font-weight:700;
-    color:#FF9933; letter-spacing:1px; text-transform:uppercase; margin-bottom:20px;
+    padding:7px 14px; border-radius:30px;
+    background:rgba(3,9,22,0.88); backdrop-filter:blur(12px);
+    border:1px solid rgba(0,85,165,0.35);
   }
-  .ach-feat-icon { font-size:2.8em; display:block; margin-bottom:14px; }
-  .ach-feat-yr { font-family:'Outfit',sans-serif; font-size:0.72em; font-weight:700; letter-spacing:2px; color:#0055A5; text-transform:uppercase; margin-bottom:6px; }
-  .ach-feat-name { font-family:'Playfair Display',serif; font-size:1.4em; font-weight:900; color:#fff; margin-bottom:8px; line-height:1.25; }
-  .ach-feat-by { font-family:'Outfit',sans-serif; font-size:0.82em; color:rgba(255,255,255,0.4); }
+  .ach-photo-with-avatar {
+    width:28px; height:28px; border-radius:50%;
+    background:linear-gradient(135deg,#0055A5,#003580);
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.85em; flex-shrink:0;
+    border:1.5px solid rgba(0,85,165,0.5);
+  }
+  .ach-photo-with-name {
+    font-family:'Outfit',sans-serif; font-size:0.72em; font-weight:700; color:#fff;
+    white-space:nowrap;
+  }
+  .ach-photo-with-role {
+    font-family:'Outfit',sans-serif; font-size:0.6em; color:rgba(255,255,255,0.45);
+    display:block; margin-top:1px;
+  }
+
+  /* INC verified badge */
+  .ach-photo-verified {
+    position:absolute; top:14px; right:14px;
+    display:inline-flex; align-items:center; gap:6px;
+    padding:5px 12px; border-radius:20px;
+    background:rgba(0,85,165,0.85); backdrop-filter:blur(8px);
+    font-family:'Outfit',sans-serif; font-size:0.65em; font-weight:700; color:#fff;
+  }
+
+  /* bottom text area */
+  .ach-photo-body {
+    padding:22px 24px 24px;
+    background:linear-gradient(135deg, rgba(0,53,128,0.12) 0%, rgba(0,85,165,0.04) 100%);
+    border-top:1px solid rgba(0,85,165,0.12);
+  }
+  .ach-photo-caption-tag {
+    display:inline-flex; align-items:center; gap:7px;
+    padding:4px 12px; border-radius:20px;
+    background:rgba(255,153,51,0.1); border:1px solid rgba(255,153,51,0.25);
+    font-family:'Outfit',sans-serif; font-size:0.65em; font-weight:700;
+    color:#FF9933; letter-spacing:1px; text-transform:uppercase; margin-bottom:12px;
+  }
+  .ach-photo-caption-title {
+    font-family:'Playfair Display',serif; font-size:1.15em; font-weight:900;
+    color:#fff; margin-bottom:7px; line-height:1.3;
+  }
+  .ach-photo-caption-desc {
+    font-family:'Outfit',sans-serif; font-size:0.8em;
+    color:rgba(255,255,255,0.38); line-height:1.65; margin-bottom:14px;
+  }
+  .ach-photo-meta {
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  }
+  .ach-photo-loc {
+    display:flex; align-items:center; gap:5px;
+    font-family:'Outfit',sans-serif; font-size:0.7em; color:rgba(0,85,165,0.7); font-weight:600;
+  }
+  .ach-photo-yr {
+    font-family:'Outfit',sans-serif; font-size:0.68em; color:rgba(255,255,255,0.2);
+    font-weight:600; letter-spacing:1px;
+  }
 
   /* small awards stack */
   .ach-stack { display:flex; flex-direction:column; gap:14px; }
@@ -320,16 +402,51 @@ function ResumeNew() {
             ))}
           </div>
 
-          {/* Magazine row 1: featured + stack */}
+          {/* Magazine row 1: photo moment card + stack */}
           <div className="ach-grid">
-            <div className="ach-featured">
-              <div className="ach-feat-badge">🏆 Top Honour</div>
-              <span className="ach-feat-icon">🏛️</span>
-              <div className="ach-feat-yr">2023</div>
-              <div className="ach-feat-name">Best Leader of Opposition</div>
-              <div className="ach-feat-by">
-                Rajasthan Press Club Annual Awards — Presented for exemplary
-                legislative performance and accountability.
+            <div className="ach-photo-card">
+              {/* Image */}
+              <div className="ach-photo-img-wrap">
+                <img
+                  src={rahulImg}
+                  alt="Priya Sharma Yadav with Priyanka Gandhi"
+                  className="ach-photo-img"
+                />
+                <div className="ach-photo-overlay" />
+                <div className="ach-photo-tricolor" />
+
+                {/* INC verified badge */}
+                <div className="ach-photo-verified">🤚 INC Official</div>
+
+                {/* With tag */}
+                <div className="ach-photo-with">
+                  <div className="ach-photo-with-avatar">🕊️</div>
+                  <div>
+                    <div className="ach-photo-with-name">
+                      with Priyanka Gandhi Vadra
+                    </div>
+                    <span className="ach-photo-with-role">
+                      Congress General Secretary · UP East
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Caption body */}
+              <div className="ach-photo-body">
+                <div className="ach-photo-caption-tag">📸 Party Moment</div>
+                <div className="ach-photo-caption-title">
+                  "जब नेतृत्व मिलता है, तो इतिहास बनता है"
+                </div>
+                <div className="ach-photo-caption-desc">
+                  Priya Sharma Yadav with Priyanka Gandhi Vadra during the INC
+                  Mahila Shakti Sammelan — a defining moment in Rajasthan's
+                  Congress campaign for women's rights and rural empowerment.
+                </div>
+                <div className="ach-photo-meta">
+                  <span className="ach-photo-loc">📍 Jaipur, Rajasthan</span>
+                  <span className="ach-photo-yr">INC · 2023</span>
+                </div>
               </div>
             </div>
 
