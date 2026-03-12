@@ -1,0 +1,374 @@
+/* ============================================
+   BJP POLITICAL PORTFOLIO — style.css
+   Clean saffron theme — no external asset refs
+   ============================================ */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Tiro+Devanagari+Hindi&display=swap');
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 7px; }
+::-webkit-scrollbar-track { background: #07060f; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #FF6B00, #D4AF37);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #FF9933, #D4AF37);
+}
+
+/* ── SELECTION ── */
+::selection { background: #FF9933; color: #fff; }
+
+/* ── BASE ── */
+* { box-sizing: border-box; }
+body {
+  font-family: 'Outfit', sans-serif !important;
+  background-color: #07060f !important;
+  color: #fff !important;
+  overflow-x: hidden;
+}
+
+/* ── NO SCROLL DURING PRELOADER ── */
+#no-scroll { overflow: hidden; height: 100vh; }
+#scroll    { overflow-x: hidden; }
+
+/* ── GLOBAL ACCENT COLOR ── */
+.purple { color: #FF9933 !important; }
+
+/* ── WAVE ANIMATION ── */
+.wave {
+  animation-name: wave-animation;
+  animation-duration: 2.1s;
+  animation-iteration-count: infinite;
+  transform-origin: 70% 70%;
+  display: inline-block;
+}
+@keyframes wave-animation {
+  0%  { transform: rotate(0deg);  }
+  10% { transform: rotate(14deg); }
+  20% { transform: rotate(-8deg); }
+  30% { transform: rotate(14deg); }
+  40% { transform: rotate(-4deg); }
+  50% { transform: rotate(10deg); }
+  60% { transform: rotate(0deg);  }
+  100%{ transform: rotate(0deg);  }
+}
+
+/* ── NAVBAR ── */
+.sticky {
+  background-color: rgba(7,6,15,0.95) !important;
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+  box-shadow: 0 2px 20px rgba(255,153,51,0.08) !important;
+  border-bottom: 1px solid rgba(255,153,51,0.1) !important;
+  transition: all 0.3s ease !important;
+}
+.navbar {
+  background: transparent !important;
+  padding: 16px 40px !important;
+  transition: all 0.3s ease !important;
+}
+
+/* ── HOME ── */
+.home-section {
+  padding: 80px 0 30px !important;
+  position: relative;
+}
+.home-content {
+  padding: 9rem 0 2rem !important;
+  text-align: left;
+}
+
+/* ── HEADINGS ── */
+.project-heading {
+  font-family: 'Outfit', sans-serif !important;
+  color: #fff !important;
+  font-size: 2.4em !important;
+  font-weight: 800 !important;
+  padding-bottom: 20px !important;
+  text-align: center;
+}
+
+/* ── SAFFRON DIVIDER ── */
+.saffron-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 44px;
+}
+.saffron-divider span:nth-child(1),
+.saffron-divider span:nth-child(3) {
+  display: block; height: 1px; width: 60px;
+  background: linear-gradient(90deg, transparent, rgba(255,153,51,0.6));
+}
+.saffron-divider span:nth-child(3) {
+  background: linear-gradient(90deg, rgba(255,153,51,0.6), transparent);
+}
+.saffron-divider span:nth-child(2) {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #FF9933;
+  box-shadow: 0 0 12px rgba(255,153,51,0.9), 0 0 24px rgba(255,153,51,0.4);
+  animation: dotPulse 2s ease-in-out infinite;
+}
+@keyframes dotPulse {
+  0%,100%{ box-shadow: 0 0 12px rgba(255,153,51,0.9), 0 0 24px rgba(255,153,51,0.4); }
+  50%    { box-shadow: 0 0 20px rgba(255,153,51,1),   0 0 40px rgba(255,153,51,0.6); }
+}
+
+/* ── BJP BUTTONS ── */
+.bjp-btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 0.92em !important; font-weight: 700 !important;
+  letter-spacing: 0.5px; padding: 12px 32px !important;
+  border-radius: 40px !important;
+  background: linear-gradient(135deg, #FF6B00, #FF9933) !important;
+  border: none !important; color: #fff !important;
+  box-shadow: 0 4px 22px rgba(255,153,51,0.35) !important;
+  text-decoration: none !important;
+  transition: all 0.3s cubic-bezier(0.22,1,0.36,1) !important;
+  cursor: pointer;
+}
+.bjp-btn-primary:hover {
+  transform: translateY(-3px) scale(1.04) !important;
+  box-shadow: 0 10px 36px rgba(255,153,51,0.55) !important;
+  color: #fff !important;
+}
+.bjp-btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 0.92em !important; font-weight: 700 !important;
+  letter-spacing: 0.5px; padding: 11px 32px !important;
+  border-radius: 40px !important;
+  background: transparent !important;
+  border: 1.5px solid rgba(255,153,51,0.5) !important;
+  color: #FF9933 !important; text-decoration: none !important;
+  transition: all 0.3s cubic-bezier(0.22,1,0.36,1) !important;
+  cursor: pointer;
+}
+.bjp-btn-outline:hover {
+  background: rgba(255,153,51,0.1) !important;
+  border-color: #FF9933 !important;
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 24px rgba(255,153,51,0.2) !important;
+  color: #FF9933 !important;
+}
+
+/* ── ABOUT SECTION ── */
+.about-section {
+  position: relative;
+  padding-bottom: 30px;
+}
+.about-activity-div {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  padding-top: 10px;
+}
+.about-activity-div2 {
+  padding-top: 15px; padding-bottom: 15px;
+}
+
+/* ── TECH ICONS ── */
+.tech-icons {
+  font-size: 4.5em !important; margin: 15px !important;
+  padding: 10px !important; opacity: 0.93 !important;
+  border: 1.7px solid rgba(255,153,51,0.2) !important;
+  vertical-align: middle !important; text-align: center !important;
+  border-radius: 5px !important; display: table !important;
+  box-shadow: 4px 5px 4px 3px rgba(255,153,51,0.1) !important;
+  overflow: hidden !important;
+  transition: all 0.4s ease !important;
+  background: rgba(255,153,51,0.03) !important;
+}
+.tech-icons:hover {
+  transform: scale(1.05) !important;
+  border-color: rgba(255,153,51,0.5) !important;
+  box-shadow: 0 0 20px rgba(255,153,51,0.2) !important;
+}
+.tech-icon-images { padding: 20px !important; line-height: 1.6 !important; }
+
+/* ── PROJECT CARDS ── */
+.project-card { padding: 50px 25px 25px !important; cursor: pointer !important; }
+.project-card-view {
+  box-shadow: 0 4px 5px 3px rgba(255,153,51,0.1) !important;
+  color: #fff !important; background-color: transparent !important;
+  opacity: 0.9 !important; transition: all 0.5s ease 0s !important;
+  height: 100% !important; border: 1px solid rgba(255,153,51,0.15) !important;
+}
+.project-card-view:hover {
+  transform: translateY(-5px) scale(1.02) !important;
+  box-shadow: 0 4px 10px 4px rgba(255,153,51,0.25) !important;
+  border-color: rgba(255,153,51,0.4) !important;
+}
+
+/* ── RESUME SECTION ── */
+.resume-section {
+  position: relative !important;
+  padding-top: 110px !important;
+  padding-bottom: 30px !important;
+  background-image: none !important;
+}
+
+/* ── FOOTER ── */
+.footer {
+  background-color: rgba(7,6,15,0.98) !important;
+  bottom: 0 !important; padding-top: 10px !important;
+  padding-bottom: 8px !important;
+  border-top: 1px solid rgba(255,153,51,0.1) !important;
+}
+
+/* ── SOCIAL ICONS ── */
+.home-social-icons {
+  position: relative !important; display: inline-block !important;
+  width: 40px !important; height: 40px !important;
+  text-align: center !important; font-size: 1.2em !important;
+  line-height: 2em !important;
+  background: rgba(255,153,51,0.06) !important;
+  border-radius: 50% !important; transition: 0.5s !important;
+  border: 1px solid rgba(255,153,51,0.15) !important;
+}
+.home-social-icons::before {
+  content: ""; position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FF6B00, #FF9933);
+  transition: 0.5s; transform: scale(0.9); z-index: -1;
+}
+.home-social-icons:hover::before {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(255,153,51,0.6);
+}
+.home-social-icons:hover {
+  color: #fff !important;
+  box-shadow: 0 0 15px rgba(255,153,51,0.4) !important;
+  text-shadow: 0 0 2px #fff !important;
+  border-color: transparent !important;
+}
+.social-icons {
+  display: inline-block !important;
+  padding-right: 15px !important;
+  padding-left: 15px !important;
+}
+
+/* ── BUTTONS ── */
+.btn-primary {
+  color: #fff !important;
+  background-color: #FF9933 !important;
+  border-color: #FF9933 !important;
+}
+.btn-primary:hover {
+  color: #fff !important;
+  background-color: #FF6B00 !important;
+  border-color: #FF6B00 !important;
+}
+
+/* ── SCROLL TO TOP ── */
+.scrollTop {
+  position: fixed; right: 20px; bottom: 20px;
+  z-index: 9998; cursor: pointer;
+  background: linear-gradient(135deg, #FF6B00, #FF9933);
+  border-radius: 50%; width: 42px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(255,153,51,0.4);
+  transition: all 0.3s ease;
+}
+.scrollTop:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(255,153,51,0.55);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 767px) {
+  .project-heading { font-size: 1.8em !important; }
+  .home-content    { padding: 7rem 0 2rem !important; }
+  .navbar          { padding: 12px 16px !important; }
+}
+
+.bjp-chakra-bg {
+  position: absolute;
+  width: 900px;
+  height: 900px;
+  opacity: 0.05;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: chakraSpin 80s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes chakraSpin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+.bjp-photo-wrap {
+  animation: heroFloat 6s ease-in-out infinite;
+}
+
+@keyframes heroFloat {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0px); }
+}
+.bjp-hero-left{
+max-width:520px;
+}
+
+.bjp-party-badge{
+display:inline-flex;
+align-items:center;
+gap:8px;
+margin-bottom:18px;
+}
+
+.bjp-greeting{
+font-size:0.9rem;
+margin-bottom:14px;
+opacity:0.85;
+}
+
+.bjp-hero-name{
+font-family:'Outfit';
+font-weight:900;
+line-height:1.05;
+margin-bottom:10px;
+}
+
+.hero-line-1{
+display:block;
+font-size:3rem;
+color:white;
+}
+
+.hero-line-2{
+display:block;
+font-size:3.2rem;
+color:#FF9933;
+}
+
+.bjp-hero-hindi{
+font-size:1.1rem;
+margin-bottom:18px;
+color:rgba(255,153,51,0.7);
+}
+
+.bjp-designation{
+margin-bottom:18px;
+}
+
+.bjp-type-text{
+color:#FF9933;
+font-weight:600;
+margin-bottom:16px;
+}
+
+.bjp-hero-quote{
+font-style:italic;
+color:rgba(255,153,51,0.75);
+margin-bottom:24px;
+}
+
+.bjp-hero-buttons{
+display:flex;
+gap:14px;
+}

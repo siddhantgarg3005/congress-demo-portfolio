@@ -1,0 +1,212 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Tiro+Devanagari+Hindi&display=swap');
+
+/* =====================================================
+   BJP PORTFOLIO — GLOBAL THEME SYSTEM
+   ===================================================== */
+
+:root{
+  --saffron:#FF9933;
+  --saffron-dark:#FF6B00;
+  --gold:#D4AF37;
+
+  --bg:#07060f;
+  --bg-soft:#0e0c1f;
+
+  --text:#ffffff;
+  --text-muted:rgba(255,255,255,0.6);
+}
+
+/* Reset */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar{width:6px;}
+
+::-webkit-scrollbar-track{
+  background:#05040a;
+}
+
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(
+    180deg,
+    var(--saffron-dark),
+    var(--gold)
+  );
+  border-radius:10px;
+}
+
+/* Selection */
+
+::selection{
+  background:var(--saffron);
+  color:white;
+}
+
+/* Sections */
+
+.home-section,
+.about-section,
+.project-section,
+.resume-section{
+  background:var(--bg);
+  position:relative;
+}
+
+/* Headings */
+
+.project-heading{
+  font-size:2.4rem;
+  font-weight:800;
+  text-align:center;
+  color:white;
+  margin-bottom:8px;
+}
+
+/* Divider */
+
+.saffron-divider{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  margin-bottom:40px;
+}
+
+.saffron-divider span:nth-child(1),
+.saffron-divider span:nth-child(3){
+  height:1px;
+  width:60px;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,153,51,0.6)
+  );
+}
+
+.saffron-divider span:nth-child(3){
+  background:linear-gradient(
+    90deg,
+    rgba(255,153,51,0.6),
+    transparent
+  );
+}
+
+.saffron-divider span:nth-child(2){
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--saffron);
+  box-shadow:0 0 10px rgba(255,153,51,0.8);
+}
+
+/* Buttons */
+
+.bjp-btn-primary{
+  padding:12px 30px;
+  border-radius:40px;
+  background:linear-gradient(
+    135deg,
+    var(--saffron-dark),
+    var(--saffron)
+  );
+  border:none;
+  color:white;
+  font-weight:700;
+  text-decoration:none;
+  transition:.3s;
+}
+
+.bjp-btn-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 30px rgba(255,153,51,0.4);
+}
+
+.bjp-btn-outline{
+  padding:12px 30px;
+  border-radius:40px;
+  border:1px solid rgba(255,153,51,0.5);
+  color:var(--saffron);
+  text-decoration:none;
+  font-weight:600;
+  transition:.3s;
+}
+
+.bjp-btn-outline:hover{
+  background:rgba(255,153,51,0.1);
+}
+
+/* Floating background orbs */
+
+.bjp-orb{
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:0;
+}
+
+.bjp-orb-1{
+  width:500px;
+  height:500px;
+  top:-200px;
+  left:-150px;
+
+  background:radial-gradient(
+    circle,
+    rgba(255,153,51,0.07),
+    transparent 70%
+  );
+}
+
+.bjp-orb-2{
+  width:400px;
+  height:400px;
+  bottom:-150px;
+  right:-120px;
+
+  background:radial-gradient(
+    circle,
+    rgba(212,175,55,0.06),
+    transparent 70%
+  );
+}
+
+/* Rotating Ashoka Chakra */
+
+.bjp-chakra-bg{
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:900px;
+  opacity:0.05;
+  transform:translate(-50%,-50%);
+  animation:chakraRotate 80s linear infinite;
+  pointer-events:none;
+}
+
+@keyframes chakraRotate{
+  from{transform:translate(-50%,-50%) rotate(0deg);}
+  to{transform:translate(-50%,-50%) rotate(360deg);}
+}
+
+/* Footer */
+
+.footer{
+  background:#05040a;
+  padding:20px;
+  text-align:center;
+  color:rgba(255,255,255,0.4);
+  border-top:1px solid rgba(255,153,51,0.1);
+}
