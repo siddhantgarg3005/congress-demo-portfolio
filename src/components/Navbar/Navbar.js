@@ -1,130 +1,182 @@
-import React, { useState } from "react";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import Container from "react-bootstrap/Container";
-import { Link } from "react-router-dom";
-import { AiOutlineHome, AiOutlineUser } from "react-icons/ai";
-import { GoProject } from "react-icons/go";
-import { SiGooglescholar } from "react-icons/si";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import congressLogo from "../../Assets/congress-logo.png";
 
-import bjpLogo from "../../Assets/bjp-logo.png";
+const CSS = `
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap');
 
-const navStyles = `
-.bjp-navbar{
-background:rgba(10,8,18,0.85);
-backdrop-filter:blur(10px);
-border-bottom:1px solid rgba(255,153,51,0.25);
-}
+  .inc-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 0;
+    transition: all 0.4s ease;
+  }
+  .inc-nav.scrolled {
+    background: rgba(3,9,22,0.95);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid rgba(0,85,165,0.15);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+  }
 
-.bjp-navbar-brand{
-display:flex;
-align-items:center;
-gap:12px;
-text-decoration:none!important;
-}
+  /* tricolor top line */
+  .inc-nav-tricolor {
+    height: 3px;
+    background: linear-gradient(90deg, #FF9933 33.3%, #ffffff 33.3% 66.6%, #138808 66.6%);
+    opacity: 0.6;
+  }
 
-.bjp-nav-logo{
-width:40px;
-height:40px;
-object-fit:contain;
-filter:drop-shadow(0 0 10px rgba(255,153,51,0.6));
-}
+  .inc-nav-inner {
+    max-width: 1200px; margin: 0 auto;
+    padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
 
-.bjp-brand-text{
-display:flex;
-flex-direction:column;
-line-height:1.1;
-}
+  /* brand */
+  .inc-nav-brand {
+    display: flex; align-items: center; gap: 11px;
+    text-decoration: none; flex-shrink: 0;
+  }
+  .inc-nav-logo {
+    width: 40px; height: 40px; object-fit: contain;
+    filter: drop-shadow(0 0 8px rgba(0,85,165,0.5));
+  }
+  .inc-nav-name {
+    font-family: 'Outfit', sans-serif; font-weight: 800;
+    font-size: 0.96em; color: #fff; line-height: 1.2;
+  }
+  .inc-nav-party {
+    font-size: 0.58em; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: #0055A5; display: block;
+  }
 
-.bjp-nav-name{
-font-family:'Outfit',sans-serif;
-font-size:0.95rem;
-font-weight:800;
-color:white;
-}
+  /* desktop links */
+  .inc-nav-links {
+    display: flex; align-items: center; gap: 4px;
+  }
+  .inc-nav-link {
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 14px; border-radius: 10px;
+    font-family: 'Outfit', sans-serif; font-size: 0.88em; font-weight: 600;
+    color: rgba(255,255,255,0.6); text-decoration: none;
+    transition: all 0.25s ease; white-space: nowrap;
+  }
+  .inc-nav-link:hover { color: #fff; background: rgba(0,85,165,0.15); }
+  .inc-nav-link.active { color: #fff; background: rgba(0,85,165,0.18); }
 
-.bjp-nav-party{
-font-family:'Outfit',sans-serif;
-font-size:0.65rem;
-color:#FF9933;
-letter-spacing:1px;
-font-weight:600;
-}
+  /* hamburger */
+  .inc-hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    background: rgba(0,85,165,0.15);
+    border: 1px solid rgba(0,85,165,0.3);
+    border-radius: 10px; padding: 10px 12px; cursor: pointer;
+  }
+  .inc-ham-bar {
+    width: 22px; height: 2px; border-radius: 2px;
+    background: rgba(255,255,255,0.8); transition: all 0.3s ease;
+  }
+  .inc-hamburger.open .inc-ham-bar:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .inc-hamburger.open .inc-ham-bar:nth-child(2) { opacity: 0; }
+  .inc-hamburger.open .inc-ham-bar:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
-.bjp-nav-link{
-display:flex!important;
-align-items:center!important;
-gap:6px!important;
-font-family:'Outfit',sans-serif!important;
-font-size:0.9rem!important;
-font-weight:600!important;
-color:rgba(255,255,255,0.75)!important;
-padding:8px 18px!important;
-border-radius:25px!important;
-transition:all .25s ease!important;
-}
+  /* mobile menu */
+  .inc-mobile-menu {
+    display: none; flex-direction: column; gap: 4px;
+    background: rgba(3,9,22,0.98); border-top: 1px solid rgba(0,85,165,0.15);
+    padding: 12px 16px 16px;
+  }
+  .inc-mobile-menu.open { display: flex; }
+  .inc-mobile-link {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px; border-radius: 12px;
+    font-family: 'Outfit', sans-serif; font-size: 0.92em; font-weight: 600;
+    color: rgba(255,255,255,0.65); text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .inc-mobile-link:hover, .inc-mobile-link.active {
+    background: rgba(0,85,165,0.15); color: #fff;
+  }
 
-.bjp-nav-link:hover{
-color:#FF9933!important;
-background:rgba(255,153,51,0.12)!important;
-}
-
-.navbar-toggler{
-border:1px solid rgba(255,153,51,0.3)!important;
-}
-
-.navbar-toggler-icon{
-background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,153,51,0.8%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e")!important;
-}
+  @media (max-width: 768px) {
+    .inc-nav-links { display: none !important; }
+    .inc-hamburger { display: flex; }
+  }
 `;
 
-function NavBar() {
-  const [expand, setExpand] = useState(false);
+const NAV_ITEMS = [
+  { to: "/", icon: "🏠", label: "Home" },
+  { to: "/journey", icon: "🌿", label: "Journey" },
+  { to: "/vision", icon: "🕊️", label: "Vision" },
+  { to: "/achievements", icon: "🏆", label: "Achievements" },
+];
+
+function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", h);
+    return () => window.removeEventListener("scroll", h);
+  }, []);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [location]);
 
   return (
     <>
-      <style>{navStyles}</style>
-
-      <Navbar expand="md" fixed="top" className="bjp-navbar">
-        <Container>
-          <Navbar.Brand as={Link} to="/" className="bjp-navbar-brand">
-            <img src={bjpLogo} alt="BJP" className="bjp-nav-logo" />
-
-            <div className="bjp-brand-text">
-              <span className="bjp-nav-name">Vikram Singh Chauhan</span>
-
-              <span className="bjp-nav-party">भारतीय जनता पार्टी</span>
+      <style>{CSS}</style>
+      <nav className={`inc-nav${scrolled ? " scrolled" : ""}`}>
+        <div className="inc-nav-tricolor" />
+        <div className="inc-nav-inner">
+          <Link to="/" className="inc-nav-brand">
+            <img src={congressLogo} alt="INC" className="inc-nav-logo" />
+            <div>
+              <div className="inc-nav-name">Priya Sharma Yadav</div>
+              <span className="inc-nav-party">Indian National Congress</span>
             </div>
-          </Navbar.Brand>
+          </Link>
 
-          <Navbar.Toggle
-            aria-controls="responsive-navbar-nav"
-            onClick={() => setExpand(!expand)}
-          />
+          <div className="inc-nav-links">
+            {NAV_ITEMS.map(({ to, icon, label }) => (
+              <Link
+                key={to}
+                to={to}
+                className={`inc-nav-link${location.pathname === to ? " active" : ""}`}
+              >
+                <span>{icon}</span>
+                {label}
+              </Link>
+            ))}
+          </div>
 
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="ms-auto">
-              <Nav.Link as={Link} to="/" className="bjp-nav-link">
-                <AiOutlineHome /> Home
-              </Nav.Link>
+          <button
+            className={`inc-hamburger${open ? " open" : ""}`}
+            onClick={() => setOpen((o) => !o)}
+            aria-label="Menu"
+          >
+            <span className="inc-ham-bar" />
+            <span className="inc-ham-bar" />
+            <span className="inc-ham-bar" />
+          </button>
+        </div>
 
-              <Nav.Link as={Link} to="/journey" className="bjp-nav-link">
-                <AiOutlineUser /> Journey
-              </Nav.Link>
-
-              <Nav.Link as={Link} to="/vision" className="bjp-nav-link">
-                <GoProject /> Vision
-              </Nav.Link>
-
-              <Nav.Link as={Link} to="/achievements" className="bjp-nav-link">
-                <SiGooglescholar /> Achievements
-              </Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+        <div className={`inc-mobile-menu${open ? " open" : ""}`}>
+          {NAV_ITEMS.map(({ to, icon, label }) => (
+            <Link
+              key={to}
+              to={to}
+              className={`inc-mobile-link${location.pathname === to ? " active" : ""}`}
+            >
+              <span>{icon}</span>
+              {label}
+            </Link>
+          ))}
+        </div>
+      </nav>
     </>
   );
 }
 
-export default NavBar;
+export default Navbar;

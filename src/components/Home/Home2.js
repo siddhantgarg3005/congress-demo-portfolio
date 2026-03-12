@@ -1,315 +1,346 @@
-import React, { useEffect } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import React, { useEffect, useRef } from "react";
+import JanAwaaz from "./JanAwaaz";
 
-const home2Styles = `
-  .bjp-vision-section {
-    padding: 60px 0 80px;
-    position: relative;
-    overflow: hidden;
-  }
+const CSS = `
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,800&family=Tiro+Devanagari+Hindi&display=swap');
 
-  .bjp-vision-intro {
-    text-align: center;
-    margin-bottom: 50px;
-    position: relative;
-    z-index: 1;
+  /* ── JOURNEY PAGE ── */
+  .jny-page {
+    min-height: 100vh;
+    padding: 110px 0 80px;
+    position: relative; overflow: hidden;
   }
-
-  .bjp-vision-tag {
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.72em;
-    font-weight: 700;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: rgba(255,153,51,0.6);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-  }
-  .bjp-vision-tag::before,
-  .bjp-vision-tag::after {
-    content: '';
-    display: block;
-    width: 40px; height: 1px;
-    background: rgba(255,153,51,0.3);
+  .jny-page::before {
+    content:''; position:absolute; inset:0; pointer-events:none;
+    background:
+      radial-gradient(ellipse 55% 55% at 0% 30%,  rgba(0,85,165,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 45% 45% at 100% 70%, rgba(19,136,8,0.05) 0%, transparent 55%);
   }
 
-  .bjp-vision-title {
-    font-family: 'Outfit', sans-serif;
-    font-size: 2.4em;
-    font-weight: 900;
-    color: #fff;
-    letter-spacing: -0.5px;
-    margin-bottom: 10px;
-  }
-  .bjp-vision-title span { color: #FF9933; }
+  .jny-wrap { max-width:1100px; margin:0 auto; padding:0 24px; }
 
-  .bjp-vision-sub {
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.95em;
-    color: rgba(255,255,255,0.45);
-    max-width: 520px;
-    margin: 0 auto;
-    line-height: 1.7;
+  /* header */
+  .jny-super {
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:'Outfit',sans-serif; font-size:0.7em; font-weight:700;
+    letter-spacing:3px; text-transform:uppercase;
+    color:rgba(0,85,165,0.55); margin-bottom:12px;
   }
+  .jny-super::before,.jny-super::after { content:''; display:block; width:36px; height:1px; background:rgba(0,85,165,0.3); }
 
-  /* Cards grid */
-  .bjp-pillars-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 16px;
-    position: relative;
-    z-index: 1;
+  .jny-title {
+    font-family:'Playfair Display',serif;
+    font-size:clamp(2em,4vw,3em); font-weight:900; color:#fff;
+    margin-bottom:10px; letter-spacing:-0.5px;
   }
-  @media(max-width:1100px) { .bjp-pillars-grid { grid-template-columns: repeat(3,1fr); } }
-  @media(max-width:700px)  { .bjp-pillars-grid { grid-template-columns: repeat(2,1fr); } }
-
-  .bjp-pillar-card {
-    position: relative;
-    border-radius: 20px;
-    padding: 30px 16px 24px;
-    background: rgba(255,255,255,0.025);
-    border: 1px solid rgba(255,153,51,0.12);
-    text-align: center;
-    cursor: default;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
-    animation: pillarIn 0.7s cubic-bezier(0.22,1,0.36,1) both;
+  .jny-title span { color:#0055A5; }
+  .jny-sub {
+    font-family:'Outfit',sans-serif; font-size:0.9em;
+    color:rgba(255,255,255,0.35); max-width:480px; line-height:1.72;
+    margin-bottom:72px;
   }
 
-  .bjp-pillar-card:nth-child(1){animation-delay:0.1s}
-  .bjp-pillar-card:nth-child(2){animation-delay:0.2s}
-  .bjp-pillar-card:nth-child(3){animation-delay:0.3s}
-  .bjp-pillar-card:nth-child(4){animation-delay:0.4s}
-  .bjp-pillar-card:nth-child(5){animation-delay:0.5s}
+  /* ── ZIGZAG TIMELINE ── */
+  .jny-timeline { position:relative; }
 
-  @keyframes pillarIn {
-    from { opacity:0; transform: translateY(28px) scale(0.94); }
-    to   { opacity:1; transform: translateY(0) scale(1); }
+  /* center spine */
+  .jny-spine {
+    position:absolute; left:50%; top:0; bottom:0;
+    width:2px; transform:translateX(-50%);
+    background:linear-gradient(180deg, rgba(0,85,165,0.5) 0%, rgba(19,136,8,0.3) 60%, transparent 100%);
   }
+  @media(max-width:768px) { .jny-spine { left:20px; } }
 
-  /* shimmer */
-  .bjp-pillar-card::after {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 60%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,153,51,0.07), transparent);
-    transition: left 0.55s ease;
-    pointer-events: none;
+  .jny-item {
+    display:grid; grid-template-columns:1fr 60px 1fr;
+    gap:0; margin-bottom:60px; position:relative;
+    align-items:center;
   }
-  .bjp-pillar-card:hover::after { left: 160%; }
+  .jny-item:last-child { margin-bottom:0; }
 
-  /* top glow line */
-  .bjp-pillar-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 15%; right: 15%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,153,51,0.8), transparent);
-    opacity: 0;
-    transition: opacity 0.35s ease;
-    box-shadow: 0 0 8px rgba(255,153,51,0.5);
-  }
-  .bjp-pillar-card:hover::before { opacity: 1; }
+  /* even items: content right, empty left */
+  .jny-item.even .jny-content { grid-column:3; grid-row:1; }
+  .jny-item.even .jny-node   { grid-column:2; grid-row:1; }
+  .jny-item.even .jny-empty  { grid-column:1; grid-row:1; }
 
-  .bjp-pillar-card:hover {
-    background: rgba(255,153,51,0.07);
-    border-color: rgba(255,153,51,0.4);
-    transform: translateY(-10px) scale(1.03);
-    box-shadow: 0 20px 50px rgba(255,153,51,0.14);
-  }
+  /* odd items: content left, empty right */
+  .jny-item.odd  .jny-content { grid-column:1; grid-row:1; }
+  .jny-item.odd  .jny-node   { grid-column:2; grid-row:1; }
+  .jny-item.odd  .jny-empty  { grid-column:3; grid-row:1; }
 
-  .bjp-pillar-icon-wrap {
-    width: 56px; height: 56px;
-    border-radius: 16px;
-    background: rgba(255,153,51,0.1);
-    border: 1px solid rgba(255,153,51,0.2);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.6em;
-    margin: 0 auto 16px;
-    transition: all 0.35s ease;
+  .jny-empty { min-height:10px; }
+
+  /* center node */
+  .jny-node {
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    z-index:2; position:relative;
   }
-  .bjp-pillar-card:hover .bjp-pillar-icon-wrap {
-    background: rgba(255,153,51,0.2);
-    border-color: rgba(255,153,51,0.5);
-    box-shadow: 0 0 20px rgba(255,153,51,0.3);
-    transform: scale(1.1) rotate(-5deg);
+  .jny-icon {
+    width:52px; height:52px; border-radius:50%; flex-shrink:0;
+    background:rgba(3,9,22,0.95);
+    border:2px solid rgba(0,85,165,0.4);
+    display:flex; align-items:center; justify-content:center; font-size:1.2em;
+    box-shadow:0 0 0 6px rgba(0,85,165,0.07), 0 0 0 12px rgba(0,85,165,0.03);
+    transition:all 0.3s ease;
+  }
+  .jny-item:hover .jny-icon {
+    border-color:rgba(0,85,165,0.8);
+    box-shadow:0 0 0 6px rgba(0,85,165,0.12), 0 0 20px rgba(0,85,165,0.3);
+  }
+  .jny-year {
+    font-family:'Outfit',sans-serif; font-size:0.62em; font-weight:800;
+    color:#0055A5; letter-spacing:1.5px; white-space:nowrap;
   }
 
-  .bjp-pillar-name {
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.9em;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 6px;
-    transition: color 0.3s ease;
+  /* content card */
+  .jny-content {
+    padding:22px 26px; border-radius:18px;
+    background:rgba(255,255,255,0.025);
+    border:1px solid rgba(0,85,165,0.1);
+    position:relative; overflow:hidden;
+    transition:all 0.35s cubic-bezier(0.22,1,0.36,1);
+    cursor:default;
   }
-  .bjp-pillar-card:hover .bjp-pillar-name { color: #FF9933; }
+  .jny-content::before {
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(135deg, rgba(0,85,165,0.06) 0%, transparent 60%);
+    opacity:0; transition:opacity 0.35s ease;
+  }
+  .jny-item:hover .jny-content {
+    border-color:rgba(0,85,165,0.3);
+    box-shadow:0 16px 40px rgba(0,85,165,0.12);
+    transform:scale(1.02);
+  }
+  .jny-item:hover .jny-content::before { opacity:1; }
 
-  .bjp-pillar-desc {
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.72em;
-    color: rgba(255,255,255,0.4);
-    line-height: 1.5;
-    transition: color 0.3s ease;
+  /* connector arrow */
+  .jny-item.odd  .jny-content::after {
+    content:''; position:absolute; right:-10px; top:50%;
+    transform:translateY(-50%);
+    border:10px solid transparent;
+    border-left-color:rgba(0,85,165,0.15);
   }
-  .bjp-pillar-card:hover .bjp-pillar-desc {
-    color: rgba(255,255,255,0.7);
-  }
-
-  .bjp-pillar-bottom-bar {
-    position: absolute;
-    bottom: 0; left: 30%; right: 30%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #FF9933, transparent);
-    opacity: 0;
-    transition: all 0.3s ease;
-  }
-  .bjp-pillar-card:hover .bjp-pillar-bottom-bar {
-    opacity: 1; left: 15%; right: 15%;
-    box-shadow: 0 0 8px rgba(255,153,51,0.6);
+  .jny-item.even .jny-content::after {
+    content:''; position:absolute; left:-10px; top:50%;
+    transform:translateY(-50%);
+    border:10px solid transparent;
+    border-right-color:rgba(0,85,165,0.15);
   }
 
-  /* quote section */
-  .bjp-quote-section {
-    margin-top: 70px;
-    position: relative;
-    z-index: 1;
-    border-radius: 24px;
-    overflow: hidden;
-    min-height: 280px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .jny-ctag {
+    display:inline-flex; align-items:center; gap:6px;
+    padding:3px 10px; border-radius:20px;
+    background:rgba(0,85,165,0.1); border:1px solid rgba(0,85,165,0.2);
+    font-family:'Outfit',sans-serif; font-size:0.62em; font-weight:700;
+    color:#0055A5; letter-spacing:1px; text-transform:uppercase; margin-bottom:10px;
   }
-  .bjp-quote-bg {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,107,0,0.12), rgba(212,175,55,0.08));
-    border: 1px solid rgba(255,153,51,0.15);
-    border-radius: 24px;
+  .jny-ctitle {
+    font-family:'Outfit',sans-serif; font-weight:800; color:#fff;
+    font-size:1.05em; margin-bottom:6px; line-height:1.3;
   }
-  .bjp-quote-content {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    padding: 50px 40px;
+  .jny-cdesc {
+    font-family:'Outfit',sans-serif; font-size:0.82em;
+    color:rgba(255,255,255,0.4); line-height:1.65;
   }
-  .bjp-quote-mark {
-    font-size: 5em;
-    color: rgba(255,153,51,0.15);
-    line-height: 0.5;
-    font-family: Georgia, serif;
-    display: block;
-    margin-bottom: 16px;
+  .jny-cbadge {
+    display:inline-flex; align-items:center; gap:5px; margin-top:10px;
+    padding:4px 10px; border-radius:8px;
+    background:rgba(19,136,8,0.08); border:1px solid rgba(19,136,8,0.2);
+    font-family:'Outfit',sans-serif; font-size:0.68em; font-weight:700; color:#138808;
   }
-  .bjp-quote-text {
-    font-family: 'Tiro Devanagari Hindi', serif;
-    font-size: 1.6em;
-    color: #fff;
-    line-height: 1.6;
-    margin-bottom: 16px;
-    text-shadow: 0 0 30px rgba(255,153,51,0.2);
+
+  /* about left column */
+  .jny-about-col {
+    position:sticky; top:120px; align-self:flex-start;
   }
-  .bjp-quote-author {
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.85em;
-    font-weight: 600;
-    color: #FF9933;
-    letter-spacing: 1px;
+  .jny-quote-block {
+    padding:28px; border-radius:20px; margin-bottom:24px;
+    background:rgba(0,85,165,0.06);
+    border:1px solid rgba(0,85,165,0.15);
+    border-left:4px solid #0055A5;
+  }
+  .jny-q-text {
+    font-family:'Tiro Devanagari Hindi',serif;
+    font-size:1em; color:rgba(255,255,255,0.65);
+    line-height:1.7; font-style:italic; margin-bottom:10px;
+  }
+  .jny-q-author {
+    font-family:'Outfit',sans-serif; font-size:0.75em;
+    font-weight:700; color:#0055A5;
+  }
+
+  /* mobile */
+  @media(max-width:768px) {
+    .jny-spine { display:none; }
+    .jny-item  { grid-template-columns:40px 1fr; grid-template-rows:auto; gap:0 16px; }
+    .jny-item.odd  .jny-content,
+    .jny-item.even .jny-content { grid-column:2; grid-row:1; }
+    .jny-item.odd  .jny-node,
+    .jny-item.even .jny-node    { grid-column:1; grid-row:1; }
+    .jny-item.odd  .jny-empty,
+    .jny-item.even .jny-empty   { display:none; }
+    .jny-icon { width:38px; height:38px; font-size:1em; }
+    .jny-item.odd  .jny-content::after,
+    .jny-item.even .jny-content::after { display:none; }
+    .jny-item:hover .jny-content { transform:none; }
   }
 `;
 
-const pillars = [
+const TIMELINE = [
   {
-    icon: "🛣️",
-    name: "Infrastructure",
-    desc: "Roads, bridges & connectivity for every village",
+    yr: "2006",
+    icon: "🌿",
+    tag: "Beginning",
+    title: "Joined Indian National Congress",
+    desc: "Began grassroots organizing in Jaipur Central. Door-to-door campaigning, community building from the ground up.",
+    badge: "Foundation Year",
   },
   {
-    icon: "🏘️",
-    name: "Village Development",
-    desc: "Gaon ka vikas, Bharat ka vikas",
+    yr: "2008",
+    icon: "🗳️",
+    tag: "First Victory",
+    title: "Elected MLA — Jaipur Central",
+    desc: "Won first MLA election with an 18,000+ vote margin, becoming one of the youngest legislators in Rajasthan.",
+    badge: "18,000+ Margin",
   },
   {
-    icon: "👨‍🌾",
-    name: "Farmer Welfare",
-    desc: "Kisan ki samridhi, desh ki unnati",
+    yr: "2012",
+    icon: "🏛️",
+    tag: "Leadership",
+    title: "District Congress President",
+    desc: "Appointed District Congress Committee President, Jaipur — overseeing party operations across 12 assembly segments.",
+    badge: "12 Segments",
   },
   {
-    icon: "🎓",
-    name: "Education & Youth",
-    desc: "Empowering youth with skills & opportunities",
+    yr: "2014",
+    icon: "⚡",
+    tag: "State Level",
+    title: "RPCC State Committee Member",
+    desc: "Elected to Rajasthan Pradesh Congress Committee executive body, shaping party policy at the state level.",
+    badge: "State Policy",
   },
   {
-    icon: "🇮🇳",
-    name: "Nation First",
-    desc: "Sabka Saath, Sabka Vikas, Sabka Vishwas",
+    yr: "2018",
+    icon: "🏆",
+    tag: "Re-Election",
+    title: "Re-elected MLA — Stronger Mandate",
+    desc: "Second consecutive MLA victory with an even stronger 27,000+ vote margin — a testament to relentless public service.",
+    badge: "27,000+ Margin",
+  },
+  {
+    yr: "2020",
+    icon: "👩",
+    tag: "Milestone",
+    title: "Mahila Shakti Abhiyan Launched",
+    desc: "Founded Rajasthan's most ambitious women's empowerment program — skill training, legal aid, and micro-credit across 500+ villages.",
+    badge: "500+ Villages",
+  },
+  {
+    yr: "2023",
+    icon: "👑",
+    tag: "Present",
+    title: "Leader of Opposition, Rajasthan",
+    desc: "Appointed Leader of Opposition in Rajasthan Legislative Assembly — holding the government accountable for every citizen.",
+    badge: "Current Position",
   },
 ];
 
 function Home2() {
+  const itemRefs = useRef([]);
+
   useEffect(() => {
-    if (!document.getElementById("bjp-home2-styles")) {
-      const tag = document.createElement("style");
-      tag.id = "bjp-home2-styles";
-      tag.innerHTML = home2Styles;
-      document.head.appendChild(tag);
+    const id = "jny-css";
+    if (!document.getElementById(id)) {
+      const t = document.createElement("style");
+      t.id = id;
+      t.innerHTML = CSS;
+      document.head.appendChild(t);
     }
+    // scroll animation
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.style.opacity = "1";
+            e.target.style.transform = "translateY(0)";
+          }
+        });
+      },
+      { threshold: 0.15 },
+    );
+    itemRefs.current.forEach((el) => {
+      if (el) obs.observe(el);
+    });
     return () => {
-      const el = document.getElementById("bjp-home2-styles");
-      if (el) el.remove();
+      obs.disconnect();
+      document.getElementById("jny-css")?.remove();
     };
   }, []);
 
   return (
-    <section className="bjp-vision-section">
-      <Container>
-        {/* Header */}
-        <div className="bjp-vision-intro">
-          <div className="bjp-vision-tag">Vision Pillars</div>
-          <h2 className="bjp-vision-title">
-            पाँच <span>संकल्प</span>
-          </h2>
-          <p className="bjp-vision-sub">
-            Five core pillars that drive every decision, every policy, and every
-            action — for the people of Madhya Pradesh.
-          </p>
-          <div className="saffron-divider" style={{ marginTop: "20px" }}>
-            <span />
-            <span />
-            <span />
+    <>
+      <section className="jny-page">
+        <div className="jny-wrap">
+          <div style={{ textAlign: "center" }}>
+            <div className="jny-super">Political Journey</div>
+            <h1 className="jny-title">
+              A Story of <span>Service & Struggle</span>
+            </h1>
+            <p className="jny-sub" style={{ margin: "0 auto 72px" }}>
+              From a grassroots worker to Leader of Opposition — 18 years of
+              unwavering dedication to the people of Rajasthan.
+            </p>
+          </div>
+
+          <div className="jny-timeline">
+            <div className="jny-spine" />
+            {TIMELINE.map((t, i) => (
+              <div
+                key={t.yr}
+                className={`jny-item ${i % 2 === 0 ? "odd" : "even"}`}
+                ref={(el) => (itemRefs.current[i] = el)}
+                style={{
+                  opacity: 0,
+                  transform: "translateY(24px)",
+                  transition: `all 0.6s ease ${i * 0.1}s`,
+                }}
+              >
+                {i % 2 === 0 ? (
+                  <>
+                    <div className="jny-content">
+                      <span className="jny-ctag">{t.tag}</span>
+                      <div className="jny-ctitle">{t.title}</div>
+                      <div className="jny-cdesc">{t.desc}</div>
+                      <span className="jny-cbadge">✦ {t.badge}</span>
+                    </div>
+                    <div className="jny-node">
+                      <div className="jny-icon">{t.icon}</div>
+                      <div className="jny-year">{t.yr}</div>
+                    </div>
+                    <div className="jny-empty" />
+                  </>
+                ) : (
+                  <>
+                    <div className="jny-empty" />
+                    <div className="jny-node">
+                      <div className="jny-icon">{t.icon}</div>
+                      <div className="jny-year">{t.yr}</div>
+                    </div>
+                    <div className="jny-content">
+                      <span className="jny-ctag">{t.tag}</span>
+                      <div className="jny-ctitle">{t.title}</div>
+                      <div className="jny-cdesc">{t.desc}</div>
+                      <span className="jny-cbadge">✦ {t.badge}</span>
+                    </div>
+                  </>
+                )}
+              </div>
+            ))}
           </div>
         </div>
-
-        {/* Pillar cards */}
-        <div className="bjp-pillars-grid">
-          {pillars.map((p, i) => (
-            <div className="bjp-pillar-card" key={i}>
-              <div className="bjp-pillar-icon-wrap">{p.icon}</div>
-              <div className="bjp-pillar-name">{p.name}</div>
-              <div className="bjp-pillar-desc">{p.desc}</div>
-              <div className="bjp-pillar-bottom-bar" />
-            </div>
-          ))}
-        </div>
-
-        {/* Quote */}
-        <div className="bjp-quote-section">
-          <div className="bjp-quote-bg" />
-          <div className="bjp-quote-content">
-            <span className="bjp-quote-mark">"</span>
-            <p className="bjp-quote-text">विकास की राह पर, जनता के साथ हमेशा</p>
-            <div className="bjp-quote-author">
-              — Vikram Singh Chauhan · विक्रम सिंह चौहान
-            </div>
-          </div>
-        </div>
-      </Container>
-    </section>
+      </section>
+      <JanAwaaz />
+    </>
   );
 }
 

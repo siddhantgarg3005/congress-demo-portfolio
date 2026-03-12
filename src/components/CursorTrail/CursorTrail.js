@@ -2,90 +2,65 @@ import { useEffect } from "react";
 
 function CursorTrail() {
   useEffect(() => {
-    const style = document.createElement("style");
-    style.id = "bjp-cursor-trail";
+    const canvas = document.createElement("canvas");
+    canvas.style.cssText =
+      "position:fixed;top:0;left:0;pointer-events:none;z-index:9998;";
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext("2d");
+    let W = (canvas.width = window.innerWidth);
+    let H = (canvas.height = window.innerHeight);
+    let mouse = { x: -200, y: -200 };
+    let particles = [];
+    const COLORS = ["#0055A5", "#FF9933", "#138808", "#4A9EDB", "#fff"];
+    let animId;
 
-    style.innerHTML = `
-      .bjp-spark {
-        position: fixed;
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 99997;
-        transform: translate(-50%, -50%);
-        animation: sparkFade 0.75s ease forwards;
-      }
+    window.addEventListener("resize", () => {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    });
+    window.addEventListener("mousemove", (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
 
-      @keyframes sparkFade {
-        0% {
-          opacity: 0.9;
-          transform: translate(-50%, -50%) scale(1);
-        }
-        100% {
-          opacity: 0;
-          transform: translate(-50%, -50%) scale(0);
-        }
-      }
-    `;
-
-    document.head.appendChild(style);
-
-    const COLORS = ["#FF9933", "#FF6B00", "#D4AF37", "#FFB347", "#FFA500"];
-
-    let last = 0;
-
-    function onMove(e) {
-      const now = Date.now();
-      if (now - last < 40) return;
-      last = now;
-
-      const count = 2 + Math.floor(Math.random() * 2);
-
-      for (let i = 0; i < count; i++) {
-        setTimeout(() => {
-          const el = document.createElement("div");
-          el.className = "bjp-spark";
-
-          const size = 4 + Math.random() * 6;
-
-          el.style.left = e.clientX + "px";
-          el.style.top = e.clientY + "px";
-          el.style.width = size + "px";
-          el.style.height = size + "px";
-          el.style.background =
-            COLORS[Math.floor(Math.random() * COLORS.length)];
-
-          document.body.appendChild(el);
-
-          const dx = (Math.random() - 0.5) * 28;
-          const dy = (Math.random() - 0.5) * 28;
-
-          requestAnimationFrame(() => {
-            el.style.transform =
-              "translate(calc(-50% + " +
-              dx +
-              "px), calc(-50% + " +
-              dy +
-              "px)) scale(0)";
-            el.style.opacity = "0";
-          });
-
-          setTimeout(() => el.remove(), 750);
-        }, i * 15);
+    function spawn() {
+      for (let i = 0; i < 2; i++) {
+        particles.push({
+          x: mouse.x + (Math.random() - 0.5) * 8,
+          y: mouse.y + (Math.random() - 0.5) * 8,
+          r: Math.random() * 3 + 1.5,
+          vx: (Math.random() - 0.5) * 1.2,
+          vy: (Math.random() - 0.5) * 1.2 - 0.6,
+          alpha: 0.8,
+          color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        });
       }
     }
 
-    window.addEventListener("mousemove", onMove);
-
+    function loop() {
+      ctx.clearRect(0, 0, W, H);
+      spawn();
+      particles = particles.filter((p) => p.alpha > 0.02);
+      for (const p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.alpha;
+        ctx.fill();
+        p.x += p.vx;
+        p.y += p.vy;
+        p.r *= 0.97;
+        p.alpha *= 0.93;
+      }
+      ctx.globalAlpha = 1;
+      animId = requestAnimationFrame(loop);
+    }
+    loop();
     return () => {
-      window.removeEventListener("mousemove", onMove);
-
-      const el = document.getElementById("bjp-cursor-trail");
-      if (el) el.remove();
+      cancelAnimationFrame(animId);
+      canvas.remove();
     };
   }, []);
-
   return null;
 }
 

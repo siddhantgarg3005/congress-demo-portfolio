@@ -1,374 +1,341 @@
-/* ============================================
-   BJP POLITICAL PORTFOLIO — style.css
-   Clean saffron theme — no external asset refs
-   ============================================ */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Tiro+Devanagari+Hindi&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Tiro+Devanagari+Hindi&family=Playfair+Display:wght@700;800;900&display=swap");
 
-/* ── SCROLLBAR ── */
-::-webkit-scrollbar { width: 7px; }
-::-webkit-scrollbar-track { background: #07060f; }
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #FF6B00, #D4AF37);
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #FF9933, #D4AF37);
+:root {
+  --c-bg:       #030916;
+  --c-blue:     #0055A5;
+  --c-blue2:    #003580;
+  --c-saffron:  #FF9933;
+  --c-green:    #138808;
+  --c-gold:     #C9A84C;
+  --c-white:    #F8F9FF;
+  --c-glass:    rgba(255,255,255,0.03);
+  --c-border:   rgba(0,85,165,0.18);
 }
 
-/* ── SELECTION ── */
-::selection { background: #FF9933; color: #fff; }
+/* ── RESET & BASE ── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* ── BASE ── */
-* { box-sizing: border-box; }
 body {
-  font-family: 'Outfit', sans-serif !important;
-  background-color: #07060f !important;
-  color: #fff !important;
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--c-bg);
+  color: var(--c-white);
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
-/* ── NO SCROLL DURING PRELOADER ── */
-#no-scroll { overflow: hidden; height: 100vh; }
-#scroll    { overflow-x: hidden; }
-
-/* ── GLOBAL ACCENT COLOR ── */
-.purple { color: #FF9933 !important; }
-
-/* ── WAVE ANIMATION ── */
-.wave {
-  animation-name: wave-animation;
-  animation-duration: 2.1s;
-  animation-iteration-count: infinite;
-  transform-origin: 70% 70%;
-  display: inline-block;
+/* scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--c-bg); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #FF9933, #0055A5, #138808);
+  border-radius: 3px;
 }
-@keyframes wave-animation {
-  0%  { transform: rotate(0deg);  }
-  10% { transform: rotate(14deg); }
-  20% { transform: rotate(-8deg); }
-  30% { transform: rotate(14deg); }
-  40% { transform: rotate(-4deg); }
-  50% { transform: rotate(10deg); }
-  60% { transform: rotate(0deg);  }
-  100%{ transform: rotate(0deg);  }
-}
+
+/* selection */
+::selection { background: rgba(0,85,165,0.35); color: #fff; }
 
 /* ── NAVBAR ── */
 .sticky {
-  background-color: rgba(7,6,15,0.95) !important;
-  backdrop-filter: blur(18px) !important;
-  -webkit-backdrop-filter: blur(18px) !important;
-  box-shadow: 0 2px 20px rgba(255,153,51,0.08) !important;
-  border-bottom: 1px solid rgba(255,153,51,0.1) !important;
-  transition: all 0.3s ease !important;
+  background-color: rgba(3,9,22,0.92) !important;
+  backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid rgba(0,85,165,0.15) !important;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.3) !important;
+  padding: 10px 0 !important;
 }
 .navbar {
-  background: transparent !important;
-  padding: 16px 40px !important;
-  transition: all 0.3s ease !important;
-}
-
-/* ── HOME ── */
-.home-section {
-  padding: 80px 0 30px !important;
-  position: relative;
-}
-.home-content {
-  padding: 9rem 0 2rem !important;
-  text-align: left;
-}
-
-/* ── HEADINGS ── */
-.project-heading {
-  font-family: 'Outfit', sans-serif !important;
-  color: #fff !important;
-  font-size: 2.4em !important;
-  font-weight: 800 !important;
-  padding-bottom: 20px !important;
-  text-align: center;
-}
-
-/* ── SAFFRON DIVIDER ── */
-.saffron-divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 44px;
-}
-.saffron-divider span:nth-child(1),
-.saffron-divider span:nth-child(3) {
-  display: block; height: 1px; width: 60px;
-  background: linear-gradient(90deg, transparent, rgba(255,153,51,0.6));
-}
-.saffron-divider span:nth-child(3) {
-  background: linear-gradient(90deg, rgba(255,153,51,0.6), transparent);
-}
-.saffron-divider span:nth-child(2) {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: #FF9933;
-  box-shadow: 0 0 12px rgba(255,153,51,0.9), 0 0 24px rgba(255,153,51,0.4);
-  animation: dotPulse 2s ease-in-out infinite;
-}
-@keyframes dotPulse {
-  0%,100%{ box-shadow: 0 0 12px rgba(255,153,51,0.9), 0 0 24px rgba(255,153,51,0.4); }
-  50%    { box-shadow: 0 0 20px rgba(255,153,51,1),   0 0 40px rgba(255,153,51,0.6); }
-}
-
-/* ── BJP BUTTONS ── */
-.bjp-btn-primary {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-family: 'Outfit', sans-serif !important;
-  font-size: 0.92em !important; font-weight: 700 !important;
-  letter-spacing: 0.5px; padding: 12px 32px !important;
-  border-radius: 40px !important;
-  background: linear-gradient(135deg, #FF6B00, #FF9933) !important;
-  border: none !important; color: #fff !important;
-  box-shadow: 0 4px 22px rgba(255,153,51,0.35) !important;
-  text-decoration: none !important;
-  transition: all 0.3s cubic-bezier(0.22,1,0.36,1) !important;
-  cursor: pointer;
-}
-.bjp-btn-primary:hover {
-  transform: translateY(-3px) scale(1.04) !important;
-  box-shadow: 0 10px 36px rgba(255,153,51,0.55) !important;
-  color: #fff !important;
-}
-.bjp-btn-outline {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-family: 'Outfit', sans-serif !important;
-  font-size: 0.92em !important; font-weight: 700 !important;
-  letter-spacing: 0.5px; padding: 11px 32px !important;
-  border-radius: 40px !important;
-  background: transparent !important;
-  border: 1.5px solid rgba(255,153,51,0.5) !important;
-  color: #FF9933 !important; text-decoration: none !important;
-  transition: all 0.3s cubic-bezier(0.22,1,0.36,1) !important;
-  cursor: pointer;
-}
-.bjp-btn-outline:hover {
-  background: rgba(255,153,51,0.1) !important;
-  border-color: #FF9933 !important;
-  transform: translateY(-3px) !important;
-  box-shadow: 0 8px 24px rgba(255,153,51,0.2) !important;
-  color: #FF9933 !important;
-}
-
-/* ── ABOUT SECTION ── */
-.about-section {
-  position: relative;
-  padding-bottom: 30px;
-}
-.about-activity-div {
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
-  padding-top: 10px;
-}
-.about-activity-div2 {
-  padding-top: 15px; padding-bottom: 15px;
-}
-
-/* ── TECH ICONS ── */
-.tech-icons {
-  font-size: 4.5em !important; margin: 15px !important;
-  padding: 10px !important; opacity: 0.93 !important;
-  border: 1.7px solid rgba(255,153,51,0.2) !important;
-  vertical-align: middle !important; text-align: center !important;
-  border-radius: 5px !important; display: table !important;
-  box-shadow: 4px 5px 4px 3px rgba(255,153,51,0.1) !important;
-  overflow: hidden !important;
+  position: fixed !important;
+  top: 0 !important;
+  width: 100% !important;
+  z-index: 1000 !important;
   transition: all 0.4s ease !important;
-  background: rgba(255,153,51,0.03) !important;
-}
-.tech-icons:hover {
-  transform: scale(1.05) !important;
-  border-color: rgba(255,153,51,0.5) !important;
-  box-shadow: 0 0 20px rgba(255,153,51,0.2) !important;
-}
-.tech-icon-images { padding: 20px !important; line-height: 1.6 !important; }
-
-/* ── PROJECT CARDS ── */
-.project-card { padding: 50px 25px 25px !important; cursor: pointer !important; }
-.project-card-view {
-  box-shadow: 0 4px 5px 3px rgba(255,153,51,0.1) !important;
-  color: #fff !important; background-color: transparent !important;
-  opacity: 0.9 !important; transition: all 0.5s ease 0s !important;
-  height: 100% !important; border: 1px solid rgba(255,153,51,0.15) !important;
-}
-.project-card-view:hover {
-  transform: translateY(-5px) scale(1.02) !important;
-  box-shadow: 0 4px 10px 4px rgba(255,153,51,0.25) !important;
-  border-color: rgba(255,153,51,0.4) !important;
+  padding: 20px 0 !important;
 }
 
-/* ── RESUME SECTION ── */
-.resume-section {
-  position: relative !important;
-  padding-top: 110px !important;
-  padding-bottom: 30px !important;
-  background-image: none !important;
-}
-
-/* ── FOOTER ── */
-.footer {
-  background-color: rgba(7,6,15,0.98) !important;
-  bottom: 0 !important; padding-top: 10px !important;
-  padding-bottom: 8px !important;
-  border-top: 1px solid rgba(255,153,51,0.1) !important;
-}
-
-/* ── SOCIAL ICONS ── */
-.home-social-icons {
-  position: relative !important; display: inline-block !important;
-  width: 40px !important; height: 40px !important;
-  text-align: center !important; font-size: 1.2em !important;
-  line-height: 2em !important;
-  background: rgba(255,153,51,0.06) !important;
-  border-radius: 50% !important; transition: 0.5s !important;
-  border: 1px solid rgba(255,153,51,0.15) !important;
-}
-.home-social-icons::before {
-  content: ""; position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #FF6B00, #FF9933);
-  transition: 0.5s; transform: scale(0.9); z-index: -1;
-}
-.home-social-icons:hover::before {
-  transform: scale(1.1);
-  box-shadow: 0 0 15px rgba(255,153,51,0.6);
-}
-.home-social-icons:hover {
+.navbar-brand .nav-brand-name {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1em;
   color: #fff !important;
-  box-shadow: 0 0 15px rgba(255,153,51,0.4) !important;
-  text-shadow: 0 0 2px #fff !important;
-  border-color: transparent !important;
+  line-height: 1.2;
 }
-.social-icons {
-  display: inline-block !important;
-  padding-right: 15px !important;
-  padding-left: 15px !important;
+.navbar-brand .nav-brand-party {
+  font-size: 0.6em;
+  color: var(--c-blue);
+  font-weight: 600;
+  letter-spacing: 1px;
+  display: block;
+  text-transform: uppercase;
+}
+
+.navbar-nav .nav-link {
+  color: rgba(255,255,255,0.65) !important;
+  font-weight: 600;
+  font-size: 0.88em;
+  letter-spacing: 0.3px;
+  padding: 8px 16px !important;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+  display: flex; align-items: center; gap: 6px;
+}
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: #fff !important;
+  background: rgba(0,85,165,0.15);
+}
+.navbar-toggler {
+  background: rgba(0,85,165,0.15) !important;
+  border: 1px solid rgba(0,85,165,0.3) !important;
+  border-radius: 8px !important;
+}
+.navbar-toggler-icon { filter: invert(1); }
+
+/* ── TRICOLOR DIVIDER ── */
+.tricolor-bar {
+  height: 3px;
+  background: linear-gradient(90deg, #FF9933 33.33%, #fff 33.33% 66.66%, #138808 66.66%);
+  width: 100%;
 }
 
 /* ── BUTTONS ── */
-.btn-primary {
-  color: #fff !important;
-  background-color: #FF9933 !important;
-  border-color: #FF9933 !important;
+.bjp-btn-primary,
+.congress-btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 26px; border-radius: 40px;
+  background: linear-gradient(135deg, #0055A5, #003580);
+  color: #fff !important; text-decoration: none;
+  font-weight: 700; font-size: 0.9em; letter-spacing: 0.3px;
+  border: none; cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 24px rgba(0,85,165,0.4);
 }
-.btn-primary:hover {
+.bjp-btn-primary:hover,
+.congress-btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 36px rgba(0,85,165,0.55);
   color: #fff !important;
-  background-color: #FF6B00 !important;
-  border-color: #FF6B00 !important;
 }
 
-/* ── SCROLL TO TOP ── */
-.scrollTop {
-  position: fixed; right: 20px; bottom: 20px;
-  z-index: 9998; cursor: pointer;
-  background: linear-gradient(135deg, #FF6B00, #FF9933);
-  border-radius: 50%; width: 42px; height: 42px;
+.bjp-btn-outline,
+.congress-btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 24px; border-radius: 40px;
+  background: transparent;
+  color: rgba(255,255,255,0.75) !important; text-decoration: none;
+  font-weight: 700; font-size: 0.9em;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  cursor: pointer; transition: all 0.3s ease;
+}
+.bjp-btn-outline:hover,
+.congress-btn-outline:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.45);
+  color: #fff !important;
+  transform: translateY(-2px);
+}
+
+/* ── PRELOADER ── */
+.preloader-container {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--c-bg);
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 16px rgba(255,153,51,0.4);
+  animation: preOut 0.6s ease 2.8s forwards;
+}
+@keyframes preOut { to { opacity: 0; pointer-events: none; } }
+.preloader-inner { text-align: center; }
+.preloader-logo  { width: 70px; margin: 0 auto 18px; animation: logoSpin 2s ease-in-out; }
+@keyframes logoSpin { 0%{transform:scale(0) rotate(-180deg);opacity:0} 60%{transform:scale(1.1) rotate(10deg);opacity:1} 100%{transform:scale(1) rotate(0deg)} }
+.preloader-name  {
+  font-family: 'Outfit', sans-serif; font-size: 1.4em; font-weight: 900;
+  color: #fff; letter-spacing: -0.5px;
+  animation: fadeUp 0.6s ease 0.5s both;
+}
+.preloader-party {
+  font-size: 0.72em; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--c-blue);
+  margin-top: 4px; animation: fadeUp 0.6s ease 0.7s both;
+}
+.preloader-bar-wrap {
+  width: 180px; height: 3px; border-radius: 3px;
+  background: rgba(255,255,255,0.07);
+  margin: 20px auto 0; overflow: hidden;
+  animation: fadeUp 0.6s ease 0.9s both;
+}
+.preloader-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #FF9933, #0055A5, #138808);
+  border-radius: 3px;
+  animation: barFill 2.2s ease 1s forwards;
+}
+@keyframes barFill { from { width: 0 } to { width: 100% } }
+@keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── PARTICLE CANVAS ── */
+#tsparticles canvas { position: absolute; inset: 0; z-index: 0 !important; }
+
+/* ── HOME2 / ABOUT ── */
+.home-about-section {
+  padding: 80px 0;
+  position: relative;
+}
+.home-about-body {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.96em; color: rgba(255,255,255,0.55);
+  line-height: 1.85;
+}
+.home-about-body strong { color: var(--c-saffron); font-weight: 700; }
+.about-quote {
+  font-family: 'Tiro Devanagari Hindi', serif;
+  font-size: 1.15em; color: rgba(0,85,165,0.7);
+  border-left: 3px solid var(--c-blue);
+  padding-left: 18px; margin: 28px 0;
+  font-style: italic;
+}
+
+/* ── SECTION HEADINGS ── */
+.section-heading {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.8em, 3.5vw, 2.4em);
+  font-weight: 900; color: #fff;
+  letter-spacing: -0.5px; margin-bottom: 10px;
+}
+.section-heading .highlight { color: var(--c-blue); }
+.section-subhead {
+  font-size: 0.88em; color: rgba(255,255,255,0.38);
+  max-width: 500px; line-height: 1.7;
+}
+
+/* ── PROJECT / WORK CARDS ── */
+.project-card-view {
+  background: rgba(255,255,255,0.025) !important;
+  border: 1px solid rgba(0,85,165,0.15) !important;
+  border-radius: 20px !important;
+  transition: all 0.3s ease !important;
+  overflow: hidden !important;
+}
+.project-card-view:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: 0 20px 50px rgba(0,85,165,0.2) !important;
+  border-color: rgba(0,85,165,0.4) !important;
+}
+.project-card-view .card-img-top {
+  height: 200px; object-fit: cover;
+  filter: brightness(0.8);
+}
+.project-card-view:hover .card-img-top { filter: brightness(1); transition: filter 0.4s ease; }
+.card-body { padding: 20px !important; }
+.card-title {
+  font-weight: 800 !important; color: #fff !important;
+  font-size: 1em !important; margin-bottom: 8px !important;
+}
+.card-text { color: rgba(255,255,255,0.45) !important; font-size: 0.84em !important; line-height: 1.65 !important; }
+
+/* ── TECH / TOOL CHIPS ── */
+.tech-icons { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.tech-icon-style {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 16px; border-radius: 10px;
+  background: rgba(0,85,165,0.08);
+  border: 1px solid rgba(0,85,165,0.2);
+  font-size: 0.82em; font-weight: 600;
+  color: rgba(255,255,255,0.65);
+  transition: all 0.25s ease;
+}
+.tech-icon-style:hover {
+  background: rgba(0,85,165,0.15);
+  border-color: rgba(0,85,165,0.4);
+  color: #fff; transform: translateY(-2px);
+}
+
+/* ── TIMELINE (achievements) ── */
+.timeline-section { padding: 80px 0; }
+.timeline-item {
+  display: flex; gap: 24px;
+  margin-bottom: 36px; position: relative;
+  animation: fadeUp 0.6s ease both;
+}
+.timeline-line {
+  position: absolute; left: 20px; top: 42px;
+  width: 2px; height: calc(100% + 12px);
+  background: linear-gradient(180deg, rgba(0,85,165,0.5), transparent);
+}
+.timeline-icon {
+  width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+  background: rgba(0,85,165,0.1);
+  border: 2px solid rgba(0,85,165,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1em; position: relative; z-index: 1;
+}
+.timeline-content {
+  flex: 1; padding: 18px 22px; border-radius: 16px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(0,85,165,0.12);
   transition: all 0.3s ease;
 }
-.scrollTop:hover {
+.timeline-content:hover {
+  background: rgba(0,85,165,0.06);
+  border-color: rgba(0,85,165,0.3);
+  transform: translateX(4px);
+}
+.timeline-year {
+  font-size: 0.72em; font-weight: 700; letter-spacing: 2px;
+  color: var(--c-blue); text-transform: uppercase; margin-bottom: 4px;
+}
+.timeline-title { font-weight: 800; color: #fff; font-size: 1em; margin-bottom: 4px; }
+.timeline-desc { font-size: 0.82em; color: rgba(255,255,255,0.4); line-height: 1.65; }
+
+/* ── GITHUB / COUNTER SECTION ── */
+.counter-section { padding: 60px 0; }
+.counter-card {
+  text-align: center; padding: 32px 20px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(0,85,165,0.15);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+.counter-card:hover {
+  background: rgba(0,85,165,0.07);
+  border-color: rgba(0,85,165,0.3);
+  transform: translateY(-4px);
+}
+.counter-num {
+  font-size: 2.8em; font-weight: 900; line-height: 1;
+  color: var(--c-blue); display: block; margin-bottom: 6px;
+}
+.counter-label { font-size: 0.8em; color: rgba(255,255,255,0.38); font-weight: 600; }
+
+/* ── ABOUT CARD ── */
+.about-card-style {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(0,85,165,0.15);
+  border-radius: 20px; padding: 32px;
+}
+
+/* ── FOOTER ── */
+.bjp-footer,
+.congress-footer {
+  border-top: 1px solid rgba(0,85,165,0.1);
+}
+
+/* ── SCROLLTOP ── */
+.scroll-to-top {
+  position: fixed; bottom: 28px; right: 28px; z-index: 999;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: rgba(0,85,165,0.2);
+  border: 1px solid rgba(0,85,165,0.4);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; cursor: pointer; font-size: 1.1em;
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+}
+.scroll-to-top:hover {
+  background: var(--c-blue);
+  box-shadow: 0 6px 20px rgba(0,85,165,0.5);
   transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(255,153,51,0.55);
 }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 767px) {
-  .project-heading { font-size: 1.8em !important; }
-  .home-content    { padding: 7rem 0 2rem !important; }
-  .navbar          { padding: 12px 16px !important; }
-}
-
-.bjp-chakra-bg {
-  position: absolute;
-  width: 900px;
-  height: 900px;
-  opacity: 0.05;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: chakraSpin 80s linear infinite;
-  pointer-events: none;
-}
-
-@keyframes chakraSpin {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-.bjp-photo-wrap {
-  animation: heroFloat 6s ease-in-out infinite;
-}
-
-@keyframes heroFloat {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
-  100% { transform: translateY(0px); }
-}
-.bjp-hero-left{
-max-width:520px;
-}
-
-.bjp-party-badge{
-display:inline-flex;
-align-items:center;
-gap:8px;
-margin-bottom:18px;
-}
-
-.bjp-greeting{
-font-size:0.9rem;
-margin-bottom:14px;
-opacity:0.85;
-}
-
-.bjp-hero-name{
-font-family:'Outfit';
-font-weight:900;
-line-height:1.05;
-margin-bottom:10px;
-}
-
-.hero-line-1{
-display:block;
-font-size:3rem;
-color:white;
-}
-
-.hero-line-2{
-display:block;
-font-size:3.2rem;
-color:#FF9933;
-}
-
-.bjp-hero-hindi{
-font-size:1.1rem;
-margin-bottom:18px;
-color:rgba(255,153,51,0.7);
-}
-
-.bjp-designation{
-margin-bottom:18px;
-}
-
-.bjp-type-text{
-color:#FF9933;
-font-weight:600;
-margin-bottom:16px;
-}
-
-.bjp-hero-quote{
-font-style:italic;
-color:rgba(255,153,51,0.75);
-margin-bottom:24px;
-}
-
-.bjp-hero-buttons{
-display:flex;
-gap:14px;
+  .navbar { padding: 12px 0 !important; }
+  .section-heading { font-size: 1.8em; }
 }

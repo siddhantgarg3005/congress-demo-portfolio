@@ -6,17 +6,17 @@ function Type() {
     <Typewriter
       options={{
         strings: [
-          "Deputy Chief Minister, Madhya Pradesh",
-          "Champion of Gaon · Garib · Kisan",
-          "BJP State Committee Member",
-          "Voice of Bhopal North",
-          "Builder of New Madhya Pradesh",
-          "Servant of the People 🙏",
+          "Leader of Opposition, Rajasthan",
+          "Champion of Mahila Shakti 💪",
+          "INC State Committee President",
+          "Voice of Jaipur Central",
+          "Farmer & Youth Advocate",
+          "Serving People Since 2008 🙏",
         ],
         autoStart: true,
         loop: true,
         deleteSpeed: 35,
-        delay: 55,
+        delay: 60,
       }}
     />
   );
